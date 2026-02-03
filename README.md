@@ -1,4 +1,4 @@
-# Project-1
+# Project-1 Scope of Work
 Cive 202 Project 1
 
 Scope of Work
@@ -85,3 +85,37 @@ Identify occurrences of AQI levels classified as “Unhealthy for Sensitive Grou
 Document when and where these events occurred.
 
 Investigate and discuss potential contributing factors based on publicly available data and EPA/AirNow resources.
+
+# Summary
+Air quality plays a significant role in public health, particularly through exposure to particulate matter (PM₂.₅ and PM₁₀) and volatile organic compounds (VOCs), which have been linked to respiratory and cardiovascular health impacts. To better understand air quality conditions across Nebraska, the UNMC Water, Climate and Health Group partnered with AirPurple to collect continuous air quality data using a network of low-cost sensors.
+
+Because air quality analysis is not a primary expertise of the UNMC research team, an external engineering consultant was selected to analyze the AirPurple dataset collected between February 2024 and March 2025. The objectives of this project were to summarize spatial and temporal air quality patterns, assess compliance with National Ambient Air Quality Standards (NAAQS), identify potential air quality hotspots, and evaluate the influence of environmental factors such as temperature, humidity, and elevation.
+
+- Methods
+
+AirPurple sensor data for Nebraska were obtained through publicly available PurpleAir resources. The dataset included measurements of PM₂.₅, PM₁₀, VOCs, temperature, relative humidity, elevation, and sensor location. Data processing and analysis were conducted using Python in a Jupyter Notebook to ensure reproducibility.
+
+Raw data were cleaned by removing incomplete records and standardizing timestamps. All results were grouped by sensor name where applicable. Mean and median concentrations of PM₂.₅, PM₁₀, and VOCs were calculated for each sensor, and the five locations with the highest values were identified. Maximum pollutant concentrations were also determined along with the dates and locations where they occurred.
+
+Temperature and relative humidity were categorized using predefined ranges to evaluate their influence on air quality. PM₂.₅ and PM₁₀ concentrations were converted to Air Quality Index (AQI) values using EPA guidelines to identify periods of potential health concern. Sensor elevation was analyzed to explore its relationship with pollutant concentrations.
+
+- Results and Discussion
+
+Analysis of mean and median pollutant concentrations showed that a small number of sensor locations consistently reported higher levels of PM₂.₅, PM₁₀, and VOCs. These locations were generally associated with urban areas or regions influenced by transportation, industrial activity, or agricultural operations.
+
+Maximum pollutant concentrations occurred on specific dates and at localized sensor locations, suggesting the influence of short-term events such as wildfire smoke transport, agricultural activity, temperature inversions, or increased local emissions.
+
+Higher particulate matter concentrations were more frequently observed during periods of high and very high humidity, likely due to reduced atmospheric dispersion and particle growth. Temperature also influenced air quality, with elevated concentrations commonly occurring during cooler conditions when atmospheric mixing is limited.
+
+Several instances of AQI levels classified as “Unhealthy for Sensitive Groups” were identified for PM₂.₅ and PM₁₀. These events were limited in duration but represent periods of increased health risk, particularly for vulnerable populations. Exploratory analysis suggested that lower-elevation sensors tended to report higher particulate matter concentrations, indicating that topography may play a role in pollutant accumulation.
+
+- Conclusions
+
+This project provides an overview of air quality conditions across Nebraska using AirPurple sensor data. While overall air quality generally met applicable standards, elevated pollutant concentrations were observed at select locations and during specific events. Environmental factors such as humidity, temperature, and elevation were found to influence measured air quality and should be considered in future monitoring efforts. These findings support continued air quality monitoring and targeted investigation of identified hotspots to better protect public health.
+
+- References
+
+AirPurple Map:  https://map.purpleair.com/air-quality-standards-us-epa-aqi?opt=%2F1%2Flp%2Fa10%2Fp604800%2FcC0#5.21/40.002/-97.008
+Purple Air Community: https://community.purpleair.com/c/data/api/18 
+EPA Air Quality Tables: EPA Air Quality Index Document.pdf
+Air Now website: https://www.airnow.gov/
