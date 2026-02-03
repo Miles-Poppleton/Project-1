@@ -122,6 +122,175 @@ Air Now website: https://www.airnow.gov/
 
 # Annotated Code Document
 
+1. Importing Required Libraries
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+
+Annotation:
+
+pandas is used to read, clean, and analyze tabular data.
+
+numpy provides numerical operations used in calculations.
+
+matplotlib.pyplot is used for creating plots and visualizations of air quality trends.
+
+2. Loading the AirPurple Dataset
+df = pd.read_csv("nebraska_airpurple_data.csv")
+
+
+Annotation:
+
+This line reads the raw AirPurple dataset stored as a CSV file into a pandas DataFrame named df.
+
+The CSV file contains pollutant concentrations, sensor information, timestamps, and meteorological variables.
+
+Keeping the data in CSV format allows the analysis to be easily replicated.
+
+3. Converting Timestamps to Datetime Format
+df['timestamp'] = pd.to_datetime(df['timestamp'])
+
+
+Annotation:
+
+Converts the timestamp column from a string format into a datetime object.
+
+This allows for time-based analysis such as identifying maximum values by date or grouping data by day or month.
+
+4. Removing Missing or Invalid Data
+df = df.dropna(subset=['PM2.5', 'PM10', 'VOC'])
+
+
+Annotation:
+
+Removes rows where PM2.5, PM10, or VOC values are missing.
+
+Ensures that statistical calculations are based on valid measurements only.
+
+5. Grouping Data by Sensor Name
+sensor_grouped = df.groupby('sensor_name')
+
+
+Annotation:
+
+Groups all data by individual AirPurple sensor names.
+
+This allows pollutant statistics to be calculated separately for each sensor location, as required by the client.
+
+6. Calculating Mean and Median Pollutant Concentrations
+stats = sensor_grouped[['PM2.5', 'PM10', 'VOC']].agg(['mean', 'median'])
+
+
+Annotation:
+
+Calculates the mean and median concentrations of PM2.5, PM10, and VOCs for each sensor.
+
+Mean values indicate overall exposure, while median values reduce the influence of extreme events.
+
+These statistics are used to identify the five locations with the highest pollutant levels.
+
+7. Identifying Maximum Pollutant Values and Dates
+max_events = df.loc[df.groupby('sensor_name')['PM2.5'].idxmax()]
+
+
+Annotation:
+
+Groups data by sensor name and identifies the row where PM2.5 reaches its maximum value for each sensor.
+
+The resulting DataFrame includes both the maximum concentration and the date on which it occurred.
+
+This approach can be repeated for PM10 and VOCs.
+
+8. Categorizing Relative Humidity
+def humidity_category(rh):
+    if rh < 50:
+        return 'Low'
+    elif rh <= 80:
+        return 'High'
+    else:
+        return 'Very High'
+
+df['Humidity_Category'] = df['humidity'].apply(humidity_category)
+
+
+Annotation:
+
+Defines a function to categorize relative humidity based on project requirements.
+
+Applies the function to the humidity column to create a new categorical variable.
+
+This allows pollutant concentrations to be compared across humidity conditions.
+
+9. Categorizing Temperature
+def temperature_category(temp):
+    if temp < 32:
+        return 'Below Freezing'
+    elif temp <= 50:
+        return 'Cool'
+    elif temp <= 70:
+        return 'Warm'
+    else:
+        return 'Hot'
+
+df['Temperature_Category'] = df['temperature_F'].apply(temperature_category)
+
+
+Annotation:
+
+Categorizes temperature values according to the specified ranges.
+
+Enables comparison of air quality under different temperature conditions.
+
+10. Calculating Average PM2.5 by Environmental Category
+env_analysis = df.groupby(
+    ['Humidity_Category', 'Temperature_Category']
+)['PM2.5'].mean()
+
+
+Annotation:
+
+Groups the data by humidity and temperature categories.
+
+Calculates the average PM2.5 concentration for each category combination.
+
+Helps determine whether meteorological conditions influence air quality.
+
+11. Converting PM2.5 to AQI Categories
+df['AQI_PM25'] = np.where(df['PM2.5'] >= 35.5, 'Unhealthy for Sensitive Groups', 'Good/Moderate')
+
+
+Annotation:
+
+Classifies PM2.5 concentrations into AQI health categories using EPA breakpoints.
+
+Identifies periods when air quality may pose a health risk to sensitive populations.
+
+This simplified approach supports exploratory AQI analysis.
+
+12. Evaluating the Effect of Sensor Elevation
+altitude_corr = df[['elevation_m', 'PM2.5']].corr().iloc[0,1]
+
+
+Annotation:
+
+Calculates the correlation between sensor elevation and PM2.5 concentration.
+
+A negative correlation suggests higher pollution at lower elevations.
+
+This supports the bonus analysis examining altitude effects.
+
+13. Saving Processed Data
+df.to_csv("processed_airpurple_data.csv", index=False)
+
+
+Annotation:
+
+Exports the cleaned and categorized dataset to a new CSV file.
+
+Ensures transparency and allows the professor or client to verify results.
+
+These are just a handful of examples of various codes used throughout the project with some descriptions.
 # Project 1 Raw Data
 http://localhost:8888/lab/tree/Project%201%20Final%20Draft
 
